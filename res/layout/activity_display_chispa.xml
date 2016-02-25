@@ -24,6 +24,15 @@
         android:layout_below="@+id/viewInvitedbtn"
         android:layout_marginTop="17dp"
         android:text="view joined friends: " />
+    
+    <Button
+        android:id="@+id/deletebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/viewInvitedbtn"
+        android:layout_below="@+id/viewInvitedbtn"
+        android:layout_marginTop="17dp"
+        android:text="delete" />
 
     <TextView
         android:id="@+id/ownerNametxt"

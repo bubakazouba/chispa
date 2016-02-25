@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 	private ArrayAdapter arrayAdapter;
 	private Users users;
 	private Chispas chispas;
+	private CurrentUser currentUser;
 	
 	//need it to keep track which row index corresponds to which _id in chispas
 	ArrayList<String> rowIndexTo_idMap = new ArrayList<String>();
@@ -43,15 +44,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         users = new Users().getInstance();
         chispas = new Chispas().getInstance();
+        currentUser = new CurrentUser().getInstance();
+        
+        //TODO: remove that
+        try {
+			currentUser.user.put("_id", "adjkasjfakjfa");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+        
         
         ScrollView t = (ScrollView)findViewById(R.id.scrollView1);
         t.setFillViewport(true);
-        String[] words = {"first"};
         int i;
         ArrayList<String> array_list = new ArrayList<String>();
-        for(i=0;i<words.length;i++){
-        	array_list.add(words[i]);
-        }
         
         arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
 
@@ -84,13 +90,9 @@ public class MainActivity extends AppCompatActivity {
         StringEntity entity = null;
         try {
         	JSONArray arr= new JSONArray();
+        	arr.put(20000);//TODO add a constant here
         	arr.put(20000);
-        	arr.put(20000);
-        	
-//        	int arr[]= new int[2];
-//        	int a[] = {20000,20000};
-//        	arr[0]=20000;
-//        	arr[1]=20000;
+        
             jsonParams.put("timeInterval", arr);
             entity = new StringEntity(jsonParams.toString());
         } catch (JSONException e) {
@@ -127,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 					}
                 	
                 }
-                Toast.makeText(getApplicationContext(), "Success2222!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "success download!", Toast.LENGTH_LONG).show();
             }
 
         });
