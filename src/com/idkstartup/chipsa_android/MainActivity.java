@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
 	private Chispas chispas;
 	private CurrentUser currentUser;
 	
+	//////////////////////////////////////
+	final private String SERVER_URL="http://chispa.idkstartup.xyz";
+	//////////////////////////////////////
 	//need it to keep track which row index corresponds to which _id in chispas
 	ArrayList<String> rowIndexTo_idMap = new ArrayList<String>();
 	
@@ -48,14 +51,13 @@ public class MainActivity extends AppCompatActivity {
         
         //TODO: remove that
         try {
-			currentUser.user.put("_id", "adjkasjfakjfa");
+			currentUser.user.put("_id", "56ca7567f48223fb7f36d0dd");//Abdulrahman Sahmoud in chispa database
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-        
+        InitializeApp();
         
         ScrollView t = (ScrollView)findViewById(R.id.scrollView1);
-        t.setFillViewport(true);
         int i;
         ArrayList<String> array_list = new ArrayList<String>();
         
@@ -83,17 +85,46 @@ public class MainActivity extends AppCompatActivity {
 		return false;
     }//end onCreateOptionsMenu
     
+    /*
+     * grabs user's data from server to update currentUser
+     */
+    public void InitializeApp() {
+        AsyncHttpClient client = new AsyncHttpClient();    
+
+        JSONObject jsonParams = new JSONObject();
+        StringEntity entity = null;
+        try {
+            jsonParams.put("fbid", currentUser.user.get("fbid"));
+            jsonParams.put("fbToken", currentUser.user.get("fbToken"));
+            entity = new StringEntity(jsonParams.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();            
+        }
+        
+        client.post(null, SERVER_URL + "/Users/AddUser", entity,"application/json", new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            	//TODO add error handling here
+            	currentUser.user=response;
+                Toast.makeText(getApplicationContext(), "Grabbed User's data="+response.toString(), Toast.LENGTH_LONG).show();
+            }
+            //TODO add on failure
+        });
+    }
+    
     public void getAllEventHittups() {
         AsyncHttpClient client = new AsyncHttpClient();    
 
         JSONObject jsonParams = new JSONObject();
         StringEntity entity = null;
         try {
-        	JSONArray arr= new JSONArray();
-        	arr.put(20000);//TODO add a constant here
-        	arr.put(20000);
-        
-            jsonParams.put("timeInterval", arr);
+        	JSONArray coordinates= new JSONArray();
+        	coordinates.put(-111);//TODO unhardcode
+        	coordinates.put(38);
+            jsonParams.put("coordinates", coordinates);
+            jsonParams.put("maxDistance", 200000);
             entity = new StringEntity(jsonParams.toString());
         } catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -103,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();            
         }
         
-        client.post(null, "http://hittup.idkstartup.xyz/eventhittups/getallhittups", entity,"application/json", new JsonHttpResponseHandler() {
+        client.post(null, SERVER_URL+"/friendhittups/getallhittups", entity,"application/json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
             	//TODO add error handling here
