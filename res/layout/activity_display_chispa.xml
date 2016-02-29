@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.idkstartup.chipsa_android.DisplayChispa" >
+    tools:context="com.idkstartup.chipsa_android.DisplayChispaActivity" >
 
     <TableLayout
         android:id="@+id/tableLayout1"
@@ -21,15 +21,20 @@
             android:id="@+id/tableRow1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-			
-            <Button
-                android:id="@+id/viewJoinedbtn"
-                android:layout_weight="1"
-                android:layout_width="0dp" 
-                
+
+            <TextView
+                android:id="@+id/ownerNametxt"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:text="view joined friends: " />
+                android:text="Large Text"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/timeChispaPostedAgotxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Large Text"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <ImageView
                 android:id="@+id/ownerProfileimg"
@@ -41,41 +46,43 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow2"
+            android:id="@+id/ownerRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
+			
             <Button
                 android:id="@+id/deletebtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="34dp"
                 android:text="delete" />
+            
         </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow3"
+        
+         <TableRow
+            android:id="@+id/notOwnerRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
-            <Button
-                android:id="@+id/viewInvitedbtn"
+            
+			<Button
+                android:id="@+id/joinbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="view invited friends: " />
-        </TableRow>
+                android:layout_marginLeft="34dp"
+                android:text="On My Way!" />
+            
+			<Button
+                android:id="@+id/checkinbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="34dp"
+                android:text="Im there!" />
+		</TableRow>
 
         <TableRow
             android:id="@+id/tableRow4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/ownerNametxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Large Text"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
         </TableRow>
 
         <LinearLayout

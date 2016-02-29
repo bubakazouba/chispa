@@ -51,7 +51,10 @@ public class MainActivity extends AppCompatActivity {
         
         //TODO: remove that
         try {
-			currentUser.user.put("_id", "56ca7567f48223fb7f36d0dd");//Abdulrahman Sahmoud in chispa database
+			currentUser.user.put("_id", "56ca7567f48223fb7f36d0dd");
+			currentUser.user.put("firstName","Abdulrahman");
+			currentUser.user.put("lastName","Sahmoud");
+			currentUser.user.put("fbid","10207635706122363");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
           public void onItemClick(AdapterView<?> arg0, View arg1, int position,long id) {
               Bundle dataBundle = new Bundle();
               dataBundle.putString("_id",rowIndexTo_idMap.get(position));
-              Intent intent = new Intent(getApplicationContext(),DisplayChispa.class);
+              Intent intent = new Intent(getApplicationContext(),DisplayChispaActivity.class);
               intent.putExtras(dataBundle);
               startActivity(intent);
           }
@@ -121,8 +124,8 @@ public class MainActivity extends AppCompatActivity {
         StringEntity entity = null;
         try {
         	JSONArray coordinates= new JSONArray();
-        	coordinates.put(-111);//TODO unhardcode
-        	coordinates.put(38);
+        	coordinates.put(-121);//TODO unhardcode
+        	coordinates.put(38.5);
             jsonParams.put("coordinates", coordinates);
             jsonParams.put("maxDistance", 200000);
             entity = new StringEntity(jsonParams.toString());
