@@ -9,16 +9,45 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/Submitbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Submit" />
-
-        <Button
             android:id="@+id/cancelbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel" />
+
+        <Button
+            android:id="@+id/submitbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/titletxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" >
+
+            <requestFocus />
+        </EditText>
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/invitebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="invite" />
 
     </TableRow>
 

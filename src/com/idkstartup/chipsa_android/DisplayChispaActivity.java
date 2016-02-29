@@ -57,10 +57,10 @@ public class DisplayChispaActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras(); 
         String _id = (String) extras.get("_id");
 
-        ////////////////////////////////////////////////////////
         chispas = new Chispas().getInstance();
         currentUser = new CurrentUser().getInstance();
 
+        ////////////////////////////////////////////////////////
         Button joinbtn = (Button)findViewById(R.id.joinbtn);
         Button checkinbtn = (Button)findViewById(R.id.checkinbtn);
         TextView ownerTextView = (TextView)findViewById(R.id.ownerNametxt);

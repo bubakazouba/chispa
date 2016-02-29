@@ -16,43 +16,41 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 /*
  * extras:
- * 	String _id: id of chispa
- *  String mode: valid values: "VIEW_USERS_INVITED","VIEW_USERS_JOINED", determines mode of view
+ * 	String title: title of view
+ *  String mode: valid values: ["SELECT"] determines mode of view
  */
 public class ViewUsers extends AppCompatActivity {
+	private CurrentUser currentUser;
+	
+	
 	private ArrayAdapter arrayAdapter;
-	private ListView obj;
-	private Chispas chispas;
-	private JSONObject chispa;
+	private ListView usersList;
 	private String mode;
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_users);
+		currentUser = new CurrentUser().getInstance();
 		
         ArrayList<String> array_list = new ArrayList<String>();
         
         arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
 
-        obj = (ListView)findViewById(R.id.listView1);
-        obj.setAdapter(arrayAdapter);
-		
-        chispas = new Chispas().getInstance();
+        usersList = (ListView)findViewById(R.id.listView1);
+        usersList.setAdapter(arrayAdapter);
 
 		Bundle extras = getIntent().getExtras(); 
-		String _id = (String) extras.get("_id");
 		mode = (String) extras.get("mode");
-		
-		setTitle("users " + (mode.equals("VIEW_USERS_INVITED")? "invited": "joined"));
-		
-		chispa = chispas.chispas.get(_id);
+		setTitle((String) extras.get("title"));
+		Toast.makeText(getApplicationContext(), "Grabbed User's data="+currentUser.user.toString(), Toast.LENGTH_LONG).show();
 		try {
-			JSONArray users = (JSONArray) chispa.get("users"+ (mode.equals("VIEW_USERS_INVITED") ? "Invited" :"Joined"));
+			JSONArray users = currentUser.user.getJSONArray("fbFriends");
 			int i;
 			JSONObject user;
 			for(i=0;i<users.length();i++){

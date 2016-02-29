@@ -8,19 +8,45 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.idkstartup.chipsa_android.MainActivity" >
 
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="wrap_content"
-        android:fillViewport="true"
+    <TableLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true" >
+        android:layout_alignParentTop="true" >
 
-        <ListView
-            android:id="@+id/listView1"
-            android:fillViewport="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-        </ListView>
-    </ScrollView>
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/createbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="88dp"
+                android:text="create chispa" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ScrollView
+                android:id="@+id/scrollView1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fillViewport="true" >
+
+                <ListView
+                    android:id="@+id/listView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true" >
+                </ListView>
+            </ScrollView>
+
+        </TableRow>
+    </TableLayout>
 
 </RelativeLayout>

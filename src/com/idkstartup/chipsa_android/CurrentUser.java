@@ -1,5 +1,7 @@
 package com.idkstartup.chipsa_android;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /*
@@ -25,6 +27,15 @@ public class CurrentUser {
            instance = new CurrentUser();
         }
         return instance;
+     }
+     
+     public JSONArray getCoordinates() {
+    	 try {
+			return user.getJSONArray("coordinates");
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
      }
 
 }

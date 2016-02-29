@@ -29,6 +29,10 @@
             android:name=".ViewUsers"
             android:label="@string/title_activity_view_invited" >
         </activity>
+        <activity
+            android:name=".CreateChispaActivity"
+            android:label="@string/title_activity_create_chispa" >
+        </activity>
     </application>
 
 </manifest>
