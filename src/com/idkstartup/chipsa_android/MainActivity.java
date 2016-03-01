@@ -131,9 +131,9 @@ public class MainActivity extends AppCompatActivity {
             	//TODO add error handling here
             	try {
 					currentUser.user=response.getJSONObject("user");
-					Toast.makeText(getApplicationContext(), "Grabbed User's data="+currentUser.user.toString(), Toast.LENGTH_LONG).show();
+//					Toast.makeText(getApplicationContext(), "Grabbed User's data="+currentUser.user.toString(), Toast.LENGTH_LONG).show();
 				} catch (JSONException e) {
-					Toast.makeText(getApplicationContext(), "didnt grab user's data error", Toast.LENGTH_LONG).show();
+//					Toast.makeText(getApplicationContext(), "didnt grab user's data error", Toast.LENGTH_LONG).show();
 					e.printStackTrace();
 				}
             }

@@ -8,17 +8,45 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.idkstartup.chipsa_android.ViewUsers" >
 
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true" >
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-        <ListView
-            android:id="@+id/listView1"
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/submitbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="submit" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
             android:layout_width="match_parent"
-            android:layout_height="198dp" >
-        </ListView>
-    </ScrollView>
+            android:layout_height="match_parent"
+            android:fillViewport="true" >
+
+            <ScrollView
+                android:id="@+id/scrollView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true" >
+
+                <ListView
+                    android:id="@+id/listView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:choiceMode="multipleChoice"
+                    android:fillViewport="true" >
+                </ListView>
+            </ScrollView>
+
+        </TableRow>
+    </TableLayout>
     
 </RelativeLayout>
