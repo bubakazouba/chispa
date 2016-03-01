@@ -46,12 +46,30 @@ public class ViewUsers extends AppCompatActivity {
         setContentView(R.layout.activity_view_users);
         currentUser = new CurrentUser().getInstance();
         
+        Bundle extras = getIntent().getExtras(); 
+        mode = (String) extras.get("mode");
+        setTitle((String) extras.get("title"));
+
         
         ///////////////////////////////////////////////////
         usersList = (ListView)findViewById(R.id.listView1);
         submitbtn = (Button)findViewById(R.id.submitbtn);
         ///////////////////////////////////////////////////
-        
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+        //usersList, get users, put them in list, initialize usersSelectedArrayList, implements usersList.OnItemClickListener
+        try {
+            JSONArray users = currentUser.user.getJSONArray("fbFriends");
+            int i;
+            JSONObject user;
+            for(i=0;i<users.length();i++){
+                user = (JSONObject) users.get(i);
+                userNamesArrayList.add((String)user.get("firstName")+(String)user.get("lastName"));
+                usersSelectedArrayList.add(false);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         
         usersAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1, userNamesArrayList);
         
@@ -69,25 +87,10 @@ public class ViewUsers extends AppCompatActivity {
 				}
 			}
 		});
+        //////////////////////////////////////////////////////////////////////////////////////////
         
         
-        Bundle extras = getIntent().getExtras(); 
-        mode = (String) extras.get("mode");
-        setTitle((String) extras.get("title"));
 
-        try {
-            JSONArray users = currentUser.user.getJSONArray("fbFriends");
-            int i;
-            JSONObject user;
-            for(i=0;i<users.length();i++){
-                user = (JSONObject) users.get(i);
-                userNamesArrayList.add((String)user.get("firstName")+(String)user.get("lastName"));
-                usersSelectedArrayList.add(false);
-            }
-            usersAdapter.notifyDataSetChanged();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         
     }
 
