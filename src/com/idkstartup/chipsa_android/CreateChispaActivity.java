@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -38,8 +39,8 @@ public class CreateChispaActivity extends AppCompatActivity {
     
     ///////////////////////////
     //this values are accessed from the submit button to put it in the post request, they are modified from the buttons that access them
-    JSONArray usersInviteduids = new JSONArray();
-    JSONArray usersCheckedInuids = new JSONArray();
+    ArrayList<String> usersInviteduids = new ArrayList<String>();
+    ArrayList<String> usersCheckedInuids = new ArrayList<String>();
     boolean isOnlyfbFriends = false;//publicbtn and specificbtn make it false, fbFriends makes it true
     boolean isPrivate = false;//publicbtn and fbFriendsbtn make it false, specific makes it true
     ////////////////////////////
@@ -78,12 +79,19 @@ public class CreateChispaActivity extends AppCompatActivity {
                 JSONObject jsonParams = new JSONObject();
                 StringEntity entity = null;
                 try {
-
+                	//convert the ListArrays to JSONArray
+                	JSONArray usersCheckedInuidsJSONArray = new JSONArray();
+                	JSONArray usersInviteduidsJSONArray = new JSONArray();
+                	int i;
+                	for(i=0;i<usersInviteduids.size();i++) usersInviteduidsJSONArray.put(usersInviteduids.get(i));
+                	for(i=0;i<usersCheckedInuids.size();i++) usersCheckedInuidsJSONArray.put(usersCheckedInuids.get(i));
+                	////////////
+                	
                     jsonParams.put("coordinates", currentUser.getCoordinates());
                     jsonParams.put("duration", 60*60);
                     jsonParams.put("uid", currentUser.user.get("_id"));
-                    jsonParams.put("usersInviteduids", usersInviteduids);
-                    jsonParams.put("usersCheckedInuids", usersCheckedInuids);
+                    jsonParams.put("usersInviteduids", usersInviteduidsJSONArray);
+                    jsonParams.put("usersCheckedInuids", usersCheckedInuidsJSONArray);
                     jsonParams.put("ownerName", currentUser.user.get("firstName"));
                     // jsonParams.put("image", image);
 
@@ -130,31 +138,39 @@ public class CreateChispaActivity extends AppCompatActivity {
             }
         });
         
-        invitebtn.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Bundle dataBundle = new Bundle();
-	            dataBundle.putString("title", "invite your friends");
-	            dataBundle.putString("mode", "SELECT");
-	            Intent intent = new Intent(getApplicationContext(),ViewUsers.class);
-	            intent.putExtras(dataBundle);
-	            startActivityForResult(intent, SELECT_USERS_INVITED);
-			}
-		});
         
-        checkedInbtn.setOnClickListener(new View.OnClickListener() {
+        OnClickListener selectusersClickListener = new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				String title;
+				ArrayList<String> usersSelecteduids=new ArrayList<String>();
+				int i;
+				int requestCode;
+				if(v.getId()==R.id.invitebtn){
+					requestCode=SELECT_USERS_INVITED;
+					title="invite your friends";
+		            usersSelecteduids=usersInviteduids;
+				}
+				else {
+					requestCode=SELECT_USERS_THERE;
+					title="who's there";
+					usersSelecteduids=usersCheckedInuids;
+				}
+				
 				Bundle dataBundle = new Bundle();
-	            dataBundle.putString("title", "who's there");
+	            dataBundle.putString("title", title);
 	            dataBundle.putString("mode", "SELECT");
+	            
+	            dataBundle.putStringArrayList("selecteduids", usersSelecteduids);
 	            Intent intent = new Intent(getApplicationContext(),ViewUsers.class);
 	            intent.putExtras(dataBundle);
-	            startActivityForResult(intent, SELECT_USERS_THERE);
+	            startActivityForResult(intent, requestCode);	
+				
 			}
-		});
+		};
+        invitebtn.setOnClickListener(selectusersClickListener);
+        checkedInbtn.setOnClickListener(selectusersClickListener);
     }//end setbtnsListeners
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -166,18 +182,11 @@ public class CreateChispaActivity extends AppCompatActivity {
     
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if(resultCode == Activity.RESULT_OK){
-    	    ArrayList<String> uids=data.getStringArrayListExtra("uids"); 
-    	    int i;
-    	    if (requestCode == SELECT_USERS_INVITED) {
-    	        usersInviteduids = new JSONArray();//reset JSONArray
-    	        for(i=0;i<uids.size();i++)
-    	            usersInviteduids.put(uids.get(i));
-    	    }
-    	    else {
-    	        usersCheckedInuids = new JSONArray();//reset JSONArray
-    	        for(i=0;i<uids.size();i++)
-    	            usersCheckedInuids.put(uids.get(i));   
-    	    }
+    	    if (requestCode == SELECT_USERS_INVITED) 
+    	        usersInviteduids = data.getStringArrayListExtra("uids");
+    	    else 
+    	        usersCheckedInuids = data.getStringArrayListExtra("uids");   
+    	    
     	}//end if RESULT_OK
     	if (resultCode == Activity.RESULT_CANCELED) {
     	    //Write your code if there's no result
