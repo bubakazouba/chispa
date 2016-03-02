@@ -1,6 +1,7 @@
 package com.idkstartup.chipsa_android;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,6 +12,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,11 +25,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class CreateChispaActivity extends AppCompatActivity {
-	final private String SERVER_URL="http://chispa.idkstartup.xyz/";//TODO have this 
+	final private String SERVER_URL="http://chispa.idkstartup.xyz/";//TODO have this
+	
+	final private int SELECT_USERS_INVITED = 1, SELECT_USERS_THERE = 2;
+	
 	private CurrentUser currentUser;
 	
 	
-    Button cancelbtn,submitbtn,invitebtn;
+    Button cancelbtn,submitbtn,invitebtn,checkedInbtn;
     EditText titletxt;
     
     
@@ -50,6 +55,7 @@ public class CreateChispaActivity extends AppCompatActivity {
         cancelbtn = (Button)findViewById(R.id.cancelbtn);
         submitbtn = (Button)findViewById(R.id.submitbtn);
         invitebtn = (Button)findViewById(R.id.invitebtn);
+        checkedInbtn = (Button)findViewById(R.id.checkedInbtn);
         //////////////////////////////////////////////////
         
         setbtnsListeners();
@@ -133,7 +139,20 @@ public class CreateChispaActivity extends AppCompatActivity {
 	            dataBundle.putString("mode", "SELECT");
 	            Intent intent = new Intent(getApplicationContext(),ViewUsers.class);
 	            intent.putExtras(dataBundle);
-	            startActivity(intent);
+	            startActivityForResult(intent, SELECT_USERS_INVITED);
+			}
+		});
+        
+        checkedInbtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Bundle dataBundle = new Bundle();
+	            dataBundle.putString("title", "who's there");
+	            dataBundle.putString("mode", "SELECT");
+	            Intent intent = new Intent(getApplicationContext(),ViewUsers.class);
+	            intent.putExtras(dataBundle);
+	            startActivityForResult(intent, SELECT_USERS_THERE);
 			}
 		});
     }//end setbtnsListeners
@@ -144,6 +163,28 @@ public class CreateChispaActivity extends AppCompatActivity {
         return true;
     }
 
+    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if(resultCode == Activity.RESULT_OK){
+    	    ArrayList<String> uids=data.getStringArrayListExtra("uids"); 
+    	    int i;
+    	    if (requestCode == SELECT_USERS_INVITED) {
+    	        usersInviteduids = new JSONArray();//reset JSONArray
+    	        for(i=0;i<uids.size();i++)
+    	            usersInviteduids.put(uids.get(i));
+    	    }
+    	    else {
+    	        usersCheckedInuids = new JSONArray();//reset JSONArray
+    	        for(i=0;i<uids.size();i++)
+    	            usersCheckedInuids.put(uids.get(i));   
+    	    }
+    	}//end if RESULT_OK
+    	if (resultCode == Activity.RESULT_CANCELED) {
+    	    //Write your code if there's no result
+    	}
+    }//onActivityResult
+    
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

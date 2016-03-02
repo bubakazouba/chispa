@@ -1,19 +1,18 @@
 package com.idkstartup.chipsa_android;
 
-import java.text.ChoiceFormat;
+
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.widget.AbsListView;
 import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ActionMode;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,9 +23,14 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 /*
- * extras:
+ * extras
+ * 
+ * takes:
  *  String title: title of view
  *  String mode: valid values: ["SELECT"] determines mode of view
+ *  
+ *  returns:
+ *  "uids", an array of strings of users selected
  */
 public class ViewUsers extends AppCompatActivity {
     private CurrentUser currentUser;
@@ -37,9 +41,10 @@ public class ViewUsers extends AppCompatActivity {
     private ArrayAdapter usersAdapter;
     private String mode;
     
+    ArrayList<String> usersuidsArrayList = new ArrayList<String>();
     ArrayList<String> userNamesArrayList = new ArrayList<String>();
-    ArrayList<Boolean> usersSelectedArrayList = new ArrayList<Boolean>();
-        
+    ArrayList<Boolean> usersSelectedArrayList = new ArrayList<Boolean>(); //for keeping track when list items are clicked
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +69,8 @@ public class ViewUsers extends AppCompatActivity {
             JSONObject user;
             for(i=0;i<users.length();i++){
                 user = (JSONObject) users.get(i);
-                userNamesArrayList.add((String)user.get("firstName")+(String)user.get("lastName"));
+                userNamesArrayList.add(user.getString("firstName")+user.getString("lastName"));
+                usersuidsArrayList.add((String)user.getString("_id"));
                 usersSelectedArrayList.add(false);
             }
         } catch (JSONException e) {
@@ -89,10 +95,26 @@ public class ViewUsers extends AppCompatActivity {
 		});
         //////////////////////////////////////////////////////////////////////////////////////////
         
+        submitbtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				int numberOfSelectedUsers,i;
+				
+				ArrayList<String> selectedUsersuids = new ArrayList<String>();
+				for(i=0;i<userNamesArrayList.size();i++)
+					if(usersSelectedArrayList.get(i))
+						selectedUsersuids.add(usersuidsArrayList.get(i));
+					
+				Intent returnIntent = new Intent();				
+				returnIntent.putExtra("uids", selectedUsersuids);
+				setResult(Activity.RESULT_OK,returnIntent);
+				finish();
+				
+			}
+		});
         
-
         
-    }
+    }//end onCreate
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

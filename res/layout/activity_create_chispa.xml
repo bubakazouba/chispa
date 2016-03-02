@@ -44,6 +44,12 @@
         android:layout_height="wrap_content" >
 
         <Button
+            android:id="@+id/checkedInbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="who r u with" />
+
+        <Button
             android:id="@+id/invitebtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
